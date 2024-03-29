@@ -12,5 +12,6 @@ public class Start {
 		Calculator objCalculator = new Calculator();
 		String res = objCalculator.ver_res(str);
 		System.out.println("Результат арифметического выражения " + res);
+		//System.out.println("Результат арифметического выражения " + res);
 	}//
 }

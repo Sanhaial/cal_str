@@ -9,12 +9,14 @@ public class Calculator {
 public String ver_res(String input_str) throws MyException {
 	//ArrayList<String> arr = operend(input_str);
 			ArrayList<String> arr = null;
+			//arr =  operend(input_str);
 			arr =  check_quotes(input_str);
 			//System.out.println("Массив элементов  " + arr.size());
 			if (arr.size() == 0) throw new MyException();
 			Element_cal objElement_cal = new Element_cal(arr.get(0));
 			Element_cal objElement_ca2 = new Element_cal(arr.get(1));
 			String res = arethmetic_action(objElement_cal, objElement_ca2, arr.get(2));
+			res = "\"" + res + "\"";
 			return res;
 }//
 
@@ -57,30 +59,45 @@ public String ver_res(String input_str) throws MyException {
 		ArrayList<String> arr = new ArrayList<String>();
 		String str1 = "";
 		String str2 = "";
-		char quotes = '\"';
-		char c1 = input_str.charAt(0);
-		if(c1 != quotes) return arr;
-		input_str = input_str.substring(1);
-		//System.out.println("Удадяем первый символ " + input_str);
+		String operator = "";
+		Boolean flaf_line = false;
 		char[] mass_c = input_str.toCharArray();
-		int i = 1;
+		int i=0;
 		for(char c: mass_c) {
-			if(c == quotes) {
-				//System.out.println("Найдины вторые кавычки " + i + " Длина строки " + input_str.length());
-				break;
+			String s = new String(new char[]{c});
+			if(s.equals("\"")) {
+				if(flaf_line == false) {
+					flaf_line = true;
+				} else {
+					flaf_line = false;
+				}//
+				
+				//System.out.println("Нашли кавычки сменили флаг   " + str1 + " Строка 2 " + flaf_line);
 			}//
-			str1 = input_str.substring(0, i);			
+			if(s.equals("-") && flaf_line == false) {
+				str2 = input_str.substring(i+1);
+				operator = "-";
+				break;
+			}
+			if(s.equals("+") && flaf_line == false) {
+				str2 = input_str.substring(i+1);
+				operator = "+";
+				break;
+			}
+			if(s.equals("/") && flaf_line == false) {
+				str2 = input_str.substring(i+1);
+				operator = "/";
+				break;
+			}
+			if(s.equals("*") && flaf_line == false) {
+				str2 = input_str.substring(i+1);
+				operator = "*";
+				break;
+			}
+			str1 = str1 + s;
 			i++;
-			
-		}//
-		char c_oper = input_str.charAt(i);
-		String operend = new String(new char[]{c_oper});
-		str1 =  '\"' +str1 + '\"';
-		//System.out.println("Формируем первую строку " + str1);
-		//System.out.println("Оперенд " + operend);
-		str2 = input_str.substring(i +1, input_str.length());
-		//System.out.println("Формируем вторую " + str2);
-		arr.add(str1); arr.add(str2); arr.add(operend);
+		}
+		arr.add(str1); arr.add(str2); arr.add(operator);
 		return arr;
 	}//
 
